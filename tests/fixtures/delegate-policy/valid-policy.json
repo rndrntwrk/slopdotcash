@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1",
+  "projectId": "eliza",
+  "repositoryId": "elizaOS/eliza",
+  "integrationBranch": "develop",
+  "visibility": "public",
+  "delegatableSources": [
+    "agent_checkpoint",
+    "github_issue",
+    "github_pull_request",
+    "greenfield_goal"
+  ],
+  "leasePolicy": {
+    "mode": "delegate_only_exclusive",
+    "defaultSeconds": 7200,
+    "maximumSeconds": 21600,
+    "heartbeatSeconds": 300,
+    "graceSeconds": 600
+  },
+  "acceptancePolicy": {
+    "authority": "github_maintainer",
+    "requiresTechnicalPass": true,
+    "requiresExactHead": true,
+    "requiresMerge": true
+  },
+  "rewardPolicy": {
+    "modes": [
+      "slop_pool"
+    ],
+    "defaultMode": "slop_pool",
+    "fixedUsdc": {
+      "enabled": false,
+      "network": null,
+      "mint": null,
+      "maximumMinor": null
+    }
+  },
+  "contextPolicy": {
+    "maximumBytes": 8388608,
+    "allowUncommittedPatch": true,
+    "allowPrivateTraceReuse": false,
+    "retentionDays": 30
+  },
+  "securityPolicy": {
+    "networkDefault": "deny",
+    "requireSecretScan": true,
+    "allowBinaries": false
+  }
+}
