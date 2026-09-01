@@ -59,9 +59,9 @@ function successor(
 
 describe("Delegate project opt-in policy", () => {
   it("keeps every current schema-v1 project valid and registry bytes unchanged", async () => {
-    expect(assertProjectRegistry([eliza, asi, deltaStar, heirElements])).toHaveLength(
-      4,
-    );
+    expect(
+      assertProjectRegistry([eliza, asi, deltaStar, heirElements]),
+    ).toHaveLength(4);
     for (const project of [eliza, asi, deltaStar, heirElements]) {
       expect(project.schemaVersion).toBe("1");
       expect("delegate" in project).toBe(false);
@@ -89,7 +89,9 @@ describe("Delegate project opt-in policy", () => {
 
     const missing = projectV2(active);
     delete missing.delegate;
-    expect(() => assertProjectDefinition(missing)).toThrow(/unexpected|delegate/u);
+    expect(() => assertProjectDefinition(missing)).toThrow(
+      /unexpected|delegate/u,
+    );
 
     expect(() =>
       assertProjectDefinition({ ...projectV2(active), schemaVersion: "3" }),
@@ -177,22 +179,22 @@ describe("Delegate project opt-in policy", () => {
     const active = clone(activeBindingFixture);
     const paused = successor(
       "paused",
-      "2026-09-02.1",
-      "2026-09-02T00:00:00.000Z",
+      "2026-09-01.2",
+      "2026-09-01T01:00:00.000Z",
       "c",
       "d",
     );
     const resumed = successor(
       "active",
-      "2026-09-03.1",
-      "2026-09-03T00:00:00.000Z",
+      "2026-09-01.3",
+      "2026-09-01T02:00:00.000Z",
       "e",
       "f",
     );
     const revoked = successor(
       "revoked",
-      "2026-09-04.1",
-      "2026-09-04T00:00:00.000Z",
+      "2026-09-01.4",
+      "2026-09-01T03:00:00.000Z",
       "1",
       "2",
     );
@@ -218,7 +220,7 @@ describe("Delegate project opt-in policy", () => {
 
     const backwardsTime = successor(
       "active",
-      "2026-09-05.1",
+      "2026-09-01.5",
       "2026-09-01T00:00:00.000Z",
       "4",
       "5",
