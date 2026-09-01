@@ -1,0 +1,64 @@
+{
+  "capturedAt": "2026-09-01T14:40:55.000Z",
+  "packageManager": "bun@1.3.14",
+  "privateTraceRevision": "private-trace-v1",
+  "projectSchemaRevision": "1",
+  "receiptMarker": "slop-contribution-attribution:v1",
+  "scoreRuleRevision": "scoring-v2",
+  "sourceCommit": "18a4c4c6fe67574b164274ae5b743e4e1ce95ff5",
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4ec1026512eb5c00301ad2183c012fe08420d20c0319c963005d2ee1bbbdc00f"
+    },
+    {
+      "path": "CLAUDE.md",
+      "sha256": "4ec1026512eb5c00301ad2183c012fe08420d20c0319c963005d2ee1bbbdc00f"
+    },
+    {
+      "path": "package.json",
+      "sha256": "6af1143d0ec2e50c253cac55500eed4f46d195f7305289d6064bc06ef9d7ff04"
+    },
+    {
+      "path": "src/lib/project-schema.mjs",
+      "sha256": "a1f9b4f138756c7854da3f405b7cf08d9d2200e6fe2b24d8849f0cec65c0e21c"
+    },
+    {
+      "path": "scripts/sync-project-registry.mjs",
+      "sha256": "a46ff5efe2a7cfb04d779947b4dd765723173d1dd8268853105bc9de2407041c"
+    },
+    {
+      "path": "src/lib/run-receipts.ts",
+      "sha256": "e151d524e39ae1ead004999336272f9b1089650f6ff5c45b881a4059dd562769"
+    },
+    {
+      "path": "src/lib/review-records.ts",
+      "sha256": "13667ea583e9a3906a33d474089e3b9b189f462bbc3de33815eae4b088539071"
+    },
+    {
+      "path": "src/lib/score-records.ts",
+      "sha256": "62414ee61c2ff25e58cd01af65621cbd51a6764e337c787ec4dc93d2cbe59077"
+    },
+    {
+      "path": "protocol/scoring-v2.md",
+      "sha256": "ec4dd6154c580f835e15b8555126a9ed5524978a54ef9e8d8acc0f79d53d5901"
+    },
+    {
+      "path": "protocol/private-trace-v1.md",
+      "sha256": "a58553c2ac463fe77db110757a30c757320f1249a98eb1f377657ae0fb70ea08"
+    },
+    {
+      "path": "backend/trace/README.md",
+      "sha256": "ea7de656fc78fee81409b603b354b6d988571a0b9e730fdff723d13a54a1b3a9"
+    },
+    {
+      "path": "src/lib/project-view.ts",
+      "sha256": "e9daa716e06c5657845d0e3ec3aca3d08466a1ad163a9c8cf7856de636d59926"
+    }
+  ],
+  "verificationCommands": [
+    "bun install --frozen-lockfile",
+    "bun run verify",
+    "bun run test:e2e"
+  ]
+}
