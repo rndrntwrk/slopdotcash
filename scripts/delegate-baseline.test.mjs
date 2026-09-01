@@ -50,7 +50,9 @@ describe("Delegate integration baseline", () => {
     const manifest = await readManifest();
 
     expect(manifest.sourceCommit).toMatch(COMMIT_RE);
-    expect(manifest.capturedAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+    expect(manifest.capturedAt).toMatch(
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/,
+    );
     expect(manifest.packageManager).toBe("bun@1.3.14");
     expect(manifest.projectSchemaRevision).toBe("1");
     expect(manifest.receiptMarker).toBe("slop-contribution-attribution:v1");
