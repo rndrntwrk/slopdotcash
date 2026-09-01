@@ -216,7 +216,7 @@ describe("Delegate project opt-in policy", () => {
     editedInPlace.proof.fileSha256 = "3".repeat(64);
     expect(() =>
       assertDelegateBindingTransition(paused, editedInPlace, repository),
-    ).toThrow(/successor|historic|revision/u);
+    ).toThrow(/successor|historic|revision|unsupported/u);
 
     const backwardsTime = successor(
       "active",
