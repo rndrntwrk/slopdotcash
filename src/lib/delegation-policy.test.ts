@@ -202,12 +202,12 @@ describe("Delegate project opt-in policy", () => {
     expect(assertDelegateBindingTransition(active, paused, repository)).toEqual(
       paused,
     );
-    expect(assertDelegateBindingTransition(paused, resumed, repository)).toEqual(
-      resumed,
-    );
-    expect(assertDelegateBindingTransition(active, revoked, repository)).toEqual(
-      revoked,
-    );
+    expect(
+      assertDelegateBindingTransition(paused, resumed, repository),
+    ).toEqual(resumed);
+    expect(
+      assertDelegateBindingTransition(active, revoked, repository),
+    ).toEqual(revoked);
     expect(assertDelegateBindingTransition(active, active, repository)).toEqual(
       active,
     );

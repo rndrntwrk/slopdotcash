@@ -56,11 +56,7 @@ function text(value, field, { max = 500, min = 1, pattern } = {}) {
 }
 
 function integer(value, field, { min, max }) {
-  if (
-    !Number.isSafeInteger(value) ||
-    value < min ||
-    value > max
-  ) {
+  if (!Number.isSafeInteger(value) || value < min || value > max) {
     throw new TypeError(`${field} is invalid`);
   }
   return value;
@@ -173,14 +169,22 @@ function validateLeasePolicy(value) {
   if (policy.mode !== "delegate_only_exclusive") {
     throw new TypeError(`${field}.mode is unsupported`);
   }
-  const defaultSeconds = integer(policy.defaultSeconds, `${field}.defaultSeconds`, {
-    min: 300,
-    max: 86_400,
-  });
-  const maximumSeconds = integer(policy.maximumSeconds, `${field}.maximumSeconds`, {
-    min: 300,
-    max: 604_800,
-  });
+  const defaultSeconds = integer(
+    policy.defaultSeconds,
+    `${field}.defaultSeconds`,
+    {
+      min: 300,
+      max: 86_400,
+    },
+  );
+  const maximumSeconds = integer(
+    policy.maximumSeconds,
+    `${field}.maximumSeconds`,
+    {
+      min: 300,
+      max: 604_800,
+    },
+  );
   const heartbeatSeconds = integer(
     policy.heartbeatSeconds,
     `${field}.heartbeatSeconds`,
@@ -194,7 +198,9 @@ function validateLeasePolicy(value) {
     throw new TypeError(`${field}.defaultSeconds cannot exceed maximumSeconds`);
   }
   if (heartbeatSeconds >= defaultSeconds) {
-    throw new TypeError(`${field}.heartbeatSeconds must be shorter than defaultSeconds`);
+    throw new TypeError(
+      `${field}.heartbeatSeconds must be shorter than defaultSeconds`,
+    );
   }
   if (graceSeconds > defaultSeconds) {
     throw new TypeError(`${field}.graceSeconds cannot exceed defaultSeconds`);
@@ -207,7 +213,12 @@ function validateAcceptancePolicy(value) {
   const policy = record(value, field);
   exactKeys(
     policy,
-    ["authority", "requiresExactHead", "requiresMerge", "requiresTechnicalPass"],
+    [
+      "authority",
+      "requiresExactHead",
+      "requiresMerge",
+      "requiresTechnicalPass",
+    ],
     field,
   );
   if (
@@ -232,11 +243,18 @@ function validateRewardPolicy(value) {
   const modes = uniqueEnumArray(policy.modes, `${field}.modes`, REWARD_MODES, {
     max: REWARD_MODES.size,
   });
-  if (typeof policy.defaultMode !== "string" || !modes.includes(policy.defaultMode)) {
+  if (
+    typeof policy.defaultMode !== "string" ||
+    !modes.includes(policy.defaultMode)
+  ) {
     throw new TypeError(`${field}.defaultMode must be enabled in modes`);
   }
   const fixed = record(policy.fixedUsdc, `${field}.fixedUsdc`);
-  exactKeys(fixed, ["enabled", "maximumMinor", "mint", "network"], `${field}.fixedUsdc`);
+  exactKeys(
+    fixed,
+    ["enabled", "maximumMinor", "mint", "network"],
+    `${field}.fixedUsdc`,
+  );
   if (typeof fixed.enabled !== "boolean") {
     throw new TypeError(`${field}.fixedUsdc.enabled is invalid`);
   }
@@ -305,7 +323,11 @@ function validateContextPolicy(value) {
 function validateSecurityPolicy(value) {
   const field = "delegatePolicy.securityPolicy";
   const policy = record(value, field);
-  exactKeys(policy, ["allowBinaries", "networkDefault", "requireSecretScan"], field);
+  exactKeys(
+    policy,
+    ["allowBinaries", "networkDefault", "requireSecretScan"],
+    field,
+  );
   if (
     !["deny", "restricted"].includes(policy.networkDefault) ||
     policy.requireSecretScan !== true ||
@@ -355,7 +377,11 @@ export function assertDelegateBinding(value, repository) {
   if (value === null) return null;
   const field = "project.delegate";
   const binding = record(value, field);
-  exactKeys(binding, ["activatedAt", "policyRevision", "proof", "state"], field);
+  exactKeys(
+    binding,
+    ["activatedAt", "policyRevision", "proof", "state"],
+    field,
+  );
   if (!DELEGATE_STATES.has(binding.state)) {
     throw new TypeError(`${field}.state is unsupported`);
   }
@@ -363,7 +389,9 @@ export function assertDelegateBinding(value, repository) {
     max: 80,
     pattern: /^[a-z0-9][a-z0-9._-]*$/u,
   });
-  timestamp(binding.activatedAt, `${field}.activatedAt`, { rejectFuture: true });
+  timestamp(binding.activatedAt, `${field}.activatedAt`, {
+    rejectFuture: true,
+  });
   const proof = record(binding.proof, `${field}.proof`);
   exactKeys(proof, ["commitSha", "fileSha256", "url"], `${field}.proof`);
   const commitSha = commit(proof.commitSha, `${field}.proof.commitSha`);
@@ -378,7 +406,9 @@ export function assertDelegateBindingTransition(previous, next, repository) {
   const after = assertDelegateBinding(next, repository);
   if (before === null) return after;
   if (after === null) {
-    throw new TypeError("project.delegate binding cannot be removed; revoke it explicitly");
+    throw new TypeError(
+      "project.delegate binding cannot be removed; revoke it explicitly",
+    );
   }
   if (JSON.stringify(before) === JSON.stringify(after)) return after;
   if (before.state === "revoked") {
@@ -390,7 +420,9 @@ export function assertDelegateBindingTransition(previous, next, repository) {
     );
   }
   if (after.policyRevision === before.policyRevision) {
-    throw new TypeError("project.delegate changes require a successor policyRevision");
+    throw new TypeError(
+      "project.delegate changes require a successor policyRevision",
+    );
   }
   if (Date.parse(after.activatedAt) <= Date.parse(before.activatedAt)) {
     throw new TypeError(
@@ -402,7 +434,9 @@ export function assertDelegateBindingTransition(previous, next, repository) {
     after.proof.fileSha256 === before.proof.fileSha256 ||
     after.proof.url === before.proof.url
   ) {
-    throw new TypeError("project.delegate successor requires a new immutable proof");
+    throw new TypeError(
+      "project.delegate successor requires a new immutable proof",
+    );
   }
   return after;
 }

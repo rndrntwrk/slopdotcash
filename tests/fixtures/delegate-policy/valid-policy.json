@@ -24,9 +24,7 @@
     "requiresMerge": true
   },
   "rewardPolicy": {
-    "modes": [
-      "slop_pool"
-    ],
+    "modes": ["slop_pool"],
     "defaultMode": "slop_pool",
     "fixedUsdc": {
       "enabled": false,
