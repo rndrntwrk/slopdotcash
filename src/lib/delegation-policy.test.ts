@@ -3,13 +3,13 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import activeBindingFixture from "../../tests/fixtures/delegate-policy/active-binding.json";
-import policyFixture from "../../tests/fixtures/delegate-policy/valid-policy.json";
-import { renderProjectRegistry } from "../../scripts/sync-project-registry.mjs";
 import asi from "../../projects/asi/project.json";
 import deltaStar from "../../projects/delta-star/project.json";
 import eliza from "../../projects/eliza/project.json";
 import heirElements from "../../projects/heir-elements-sdk/project.json";
+import { renderProjectRegistry } from "../../scripts/sync-project-registry.mjs";
+import activeBindingFixture from "../../tests/fixtures/delegate-policy/active-binding.json";
+import policyFixture from "../../tests/fixtures/delegate-policy/valid-policy.json";
 import {
   assertDelegateBinding,
   assertDelegateBindingTransition,
