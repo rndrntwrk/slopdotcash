@@ -1,0 +1,10 @@
+{
+  "state": "active",
+  "policyRevision": "2026-09-01.1",
+  "activatedAt": "2026-09-01T00:00:00.000Z",
+  "proof": {
+    "commitSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "fileSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "url": "https://github.com/elizaOS/eliza/blob/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/.github/slop-delegate.json"
+  }
+}
