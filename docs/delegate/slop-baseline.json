@@ -21,11 +21,11 @@
     },
     {
       "path": "src/lib/project-schema.mjs",
-      "sha256": "a1f9b4f138756c7854da3f405b7cf08d9d2200e6fe2b24d8849f0cec65c0e21c"
+      "sha256": "da6cf0a87d0b1a46203ad7eb799405d0c977d2bcc9306ce7f4bf2d7ebce6017b"
     },
     {
       "path": "scripts/sync-project-registry.mjs",
-      "sha256": "a46ff5efe2a7cfb04d779947b4dd765723173d1dd8268853105bc9de2407041c"
+      "sha256": "232631fb06eeace2e93dc2a44e167e17b70069fd6317afa201acf2a7ce6a6cfd"
     },
     {
       "path": "src/lib/run-receipts.ts",
