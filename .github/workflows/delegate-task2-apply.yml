@@ -1,0 +1,46 @@
+name: Apply reviewed Delegate Task 2 patch
+
+on:
+  push:
+    branches:
+      - delegate/slop-extension-v0.1
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.event.head_commit.message == 'chore: stage Delegate task 2 patch'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out the exact feature branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: delegate/slop-extension-v0.1
+          fetch-depth: 0
+
+      - name: Decode and verify the patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 --decode scripts/.delegate-task2.patch.gz.b64 | gzip --decompress > "$RUNNER_TEMP/delegate-task2.patch"
+          git apply --check "$RUNNER_TEMP/delegate-task2.patch"
+
+      - name: Apply the reviewed patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git apply --index "$RUNNER_TEMP/delegate-task2.patch"
+          git diff --cached --check
+          node --check src/lib/delegation-policy.mjs
+          node --check src/lib/project-schema.mjs
+          node --check scripts/sync-project-registry.mjs
+
+      - name: Commit the implementation
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Delegate implementation bot"
+          git config user.email "delegate-implementation@users.noreply.github.com"
+          git commit -m "feat: add reviewed Delegate project opt-in"
+          git push origin HEAD:refs/heads/delegate/slop-extension-v0.1
