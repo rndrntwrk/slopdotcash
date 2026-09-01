@@ -4,13 +4,14 @@
  * request cannot smuggle executable configuration or ambiguous reward terms.
  */
 
+import { assertDelegateBinding } from "./delegation-policy.mjs";
 import { assertFundingAddresses } from "./funding-address.mjs";
 import {
   assertFundingCommitments,
   hasActiveFundingCommitment,
 } from "./funding-instruments.mjs";
 
-const PROJECT_KEYS = [
+const PROJECT_KEYS_V1 = [
   "authority",
   "description",
   "eyebrow",
@@ -31,6 +32,7 @@ const PROJECT_KEYS = [
   "steward",
   "terms",
 ];
+const PROJECT_KEYS_V2 = [...PROJECT_KEYS_V1, "delegate"];
 export const MAX_MONTHLY_CAP_MINOR = 1_000_000_000_000_000n;
 
 /** Formats cent-precise USDC minor units without floating-point conversion. */
@@ -910,15 +912,18 @@ function validateProjectDefinition(
   } = {},
 ) {
   const project = record(value, "project");
+  if (project.schemaVersion !== "1" && project.schemaVersion !== "2") {
+    throw new TypeError("project schemaVersion is unsupported");
+  }
+  const projectKeys =
+    project.schemaVersion === "2" ? PROJECT_KEYS_V2 : PROJECT_KEYS_V1;
   exactKeys(
     project,
     allowLegacyMissingListingTier && !("listingTier" in project)
-      ? PROJECT_KEYS.filter((key) => key !== "listingTier")
-      : PROJECT_KEYS,
+      ? projectKeys.filter((key) => key !== "listingTier")
+      : projectKeys,
     "project",
   );
-  if (project.schemaVersion !== "1")
-    throw new TypeError("project schemaVersion is unsupported");
   const id = text(project.id, "project.id", {
     max: 48,
     pattern: /^[a-z0-9](?:[a-z0-9-]{0,46}[a-z0-9])?$/u,
@@ -949,6 +954,9 @@ function validateProjectDefinition(
     );
   }
   const repositories = project.repositories.map(validateRepository);
+  if (project.schemaVersion === "2") {
+    assertDelegateBinding(project.delegate, repositories[0]);
+  }
   if (
     new Set(repositories.map((repository) => repository.id.toLowerCase()))
       .size !== repositories.length

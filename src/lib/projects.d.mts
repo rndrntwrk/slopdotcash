@@ -1,5 +1,6 @@
 /** Types for the public project and reward-policy registry. */
 
+import type { DelegateBinding } from "./delegation-policy.mjs";
 import type { FundingCommitmentInstrument } from "./funding-instruments.mjs";
 
 export type ProjectId = string;
@@ -40,8 +41,18 @@ export interface ProjectRewardPolicy {
   };
 }
 
+export interface ProjectRepository {
+  readonly id: string;
+  readonly aliases?: readonly string[];
+  readonly displayName: string;
+  readonly githubUrl: string;
+  readonly description: string;
+  readonly integrationBranch: string;
+}
+
 export interface ProjectDefinition {
-  readonly schemaVersion: "1";
+  readonly schemaVersion: "1" | "2";
+  readonly delegate?: DelegateBinding | null;
   readonly id: ProjectId;
   readonly slug: ProjectId;
   readonly name: string;
@@ -174,14 +185,7 @@ export interface ProjectDefinition {
       readonly ipTerms: string;
     } | null;
   };
-  readonly repositories: readonly {
-    readonly id: string;
-    readonly aliases?: readonly string[];
-    readonly displayName: string;
-    readonly githubUrl: string;
-    readonly description: string;
-    readonly integrationBranch: string;
-  }[];
+  readonly repositories: readonly ProjectRepository[];
   readonly skill: {
     readonly id: string;
     readonly publishAtRoot: boolean;

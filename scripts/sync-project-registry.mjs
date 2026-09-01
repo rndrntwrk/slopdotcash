@@ -50,7 +50,7 @@ export async function renderProjectRegistry() {
         `Project ${definition.id ?? "<missing>"} is in the wrong directory`,
       );
     }
-    assertProjectDefinition(definition);
+    definition = assertProjectDefinition(definition);
     for (const skillPath of [
       definition.skill?.sourcePath,
       definition.reviewSkill?.sourcePath,
