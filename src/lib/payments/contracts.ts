@@ -136,6 +136,11 @@ export interface PublicVaultPayment extends PaymentAsset {
   transactionId: string;
   /** When finalized evidence was indexed, not the payment's block time. */
   indexedAt: string;
+  proof?: {
+    obligationId: string;
+    sourceDigest: string;
+    vault: string;
+  };
 }
 export interface PublicVaultPaymentPage {
   payments: PublicVaultPayment[];
